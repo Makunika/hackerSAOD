@@ -1,5 +1,6 @@
 package UI;
 
+import excel.Excel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,18 +49,22 @@ public class Controller {
         question.setCellValueFactory(cellData -> cellData.getValue().questionProperty());
         answer.setCellValueFactory(cellData -> cellData.getValue().answerProperty());
         list = FXCollections.observableList(new ArrayList<>());
-        list.add(new QuesAns("hello", "hello2"));
+        list.add(new QuesAns("Для завершения поиска в глубин", ""));
         table.setItems(list);
 
         enter.setOnAction(event -> {
+
+
+            Excel excel = new Excel(list);
+
             if (!loginText.getText().equals("") && !passText.getText().equals("")) {
-                question.setText("");
+                debug.setText("");
                 //Код селениум
-                question.setText("Введите url");
+                debug.setText("Введите url");
             }
             else
             {
-                question.setText("Введите данные!!!!");
+                debug.setText("Введите данные!!!!");
             }
         });
 
