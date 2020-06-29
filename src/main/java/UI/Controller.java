@@ -1,5 +1,6 @@
 package UI;
 
+import excel.Excel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -61,6 +62,10 @@ public class Controller {
         table.setItems(list);
 
         enter.setOnAction(event -> {
+
+
+            Excel excel = new Excel(list);
+
             if (!loginText.getText().equals("") && !passText.getText().equals("")) {
                 //Код селениум
                 debug.setText("Введите url");
