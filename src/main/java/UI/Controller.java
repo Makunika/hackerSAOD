@@ -6,7 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.openqa.selenium.InvalidArgumentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import selenium.Config;
 
+import java.io.Console;
+import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +27,7 @@ public class Controller {
     private TextField loginText;
 
     @FXML
-    private TextField passText;
+    private PasswordField passText;
 
     @FXML
     private TextArea debug;
@@ -44,31 +52,58 @@ public class Controller {
 
     @FXML
     void initialize() {
+        ChromeDriver driver = Main.webDriver;
+
 
         question.setCellValueFactory(cellData -> cellData.getValue().questionProperty());
         answer.setCellValueFactory(cellData -> cellData.getValue().answerProperty());
         list = FXCollections.observableList(new ArrayList<>());
-        list.add(new QuesAns("hello", "hello2"));
         table.setItems(list);
 
         enter.setOnAction(event -> {
             if (!loginText.getText().equals("") && !passText.getText().equals("")) {
-                question.setText("");
                 //Код селениум
-                question.setText("Введите url");
+                debug.setText("Введите url");
+
+                driver.get(Config.getProperty("loginpage"));
+                driver.findElementByXPath("//input[@id=\"username\"][@name=\"username\"]").sendKeys(loginText.getText());
+                driver.findElementByXPath("//input[@id=\"password\"][@name=\"password\"]").sendKeys(passText.getText());
+                driver.findElementByXPath("//button[@type=\"submit\"][@id=\"loginbtn\"]").click();
             }
             else
             {
-                question.setText("Введите данные!!!!");
+                debug.setText("Введите данные!!!!");
             }
         });
 
         GoToPage.setOnAction(event -> {
             if (!url_.getText().equals("")) {
                 //Код селениум
+                driver.get(url_.getText());
+
+                while(true){
+                    try{
+                        // Ищем кнопку "закончить тест".
+                        WebElement qtext = driver.findElementByXPath("//input[@type=\"submit\"][@name=\"next\"][@value=\"Закончить попытку...\"]");
+
+                        break;
+                    }
+                    catch (NoSuchElementException ignored){
+                        ;
+                    }
+
+                    try {
+
+                        WebElement qtext = driver.findElementByXPath("//div[@class=\"qtext\"]");
+
+                        list.add(new QuesAns(qtext.getText().substring(0, qtext.getText().length() - 5), "???"));
+                    }
+                    catch (NoSuchElementException ignored){
+                    }
+
+                    driver.findElementByXPath("//input[@type=\"submit\"][@name=\"next\"][@value=\"Следующая страница\"]").click();
+                }
             }
         });
-
-
     }
 }
