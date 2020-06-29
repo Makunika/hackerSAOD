@@ -16,7 +16,7 @@ public class Excel {
 
     public Excel(ObservableList<QuesAns> list) {
         try {
-            String fileName = "src/main/resources/saodCheat.xlsx";
+            String fileName = "src/main/resorces/saodCheat.xlsx";
 
             InputStream input = new FileInputStream(fileName);
             XSSFWorkbook wb = new XSSFWorkbook(input);

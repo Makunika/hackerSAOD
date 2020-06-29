@@ -7,6 +7,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.util.Callback;
 import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +18,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import selenium.Config;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.Console;
 import java.sql.Driver;
 import java.util.ArrayList;
@@ -49,6 +55,9 @@ public class Controller {
     private TableColumn<QuesAns, String> answer;
 
     @FXML
+    private TableColumn<QuesAns, String> number;
+
+    @FXML
     private Button enter;
 
     @FXML
@@ -58,13 +67,28 @@ public class Controller {
 
         question.setCellValueFactory(cellData -> cellData.getValue().questionProperty());
         answer.setCellValueFactory(cellData -> cellData.getValue().answerProperty());
+        number.setCellValueFactory(cellData -> cellData.getValue().numberProperty());
         list = FXCollections.observableList(new ArrayList<>());
         table.setItems(list);
+
+        table.setRowFactory(new Callback<TableView<QuesAns>, TableRow<QuesAns>>() {
+            @Override
+            public TableRow<QuesAns> call(TableView<QuesAns> param) {
+                final TableRow<QuesAns> row = new TableRow<>();
+
+                row.setOnMouseClicked(event -> {
+                    setClipboard(table.getSelectionModel().getSelectedItem().getQuestion());
+                });
+
+
+                return row;
+            }
+        });
 
         enter.setOnAction(event -> {
 
 
-            Excel excel = new Excel(list);
+
 
             if (!loginText.getText().equals("") && !passText.getText().equals("")) {
                 //Код селениум
@@ -106,9 +130,17 @@ public class Controller {
                     catch (NoSuchElementException ignored){
                     }
 
+
+
                     driver.findElementByXPath("//input[@type=\"submit\"][@name=\"next\"][@value=\"Следующая страница\"]").click();
                 }
             }
+            Excel excel = new Excel(list);
         });
+    }
+
+    public static void setClipboard(String str) {
+        StringSelection ss = new StringSelection(str);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
     }
 }

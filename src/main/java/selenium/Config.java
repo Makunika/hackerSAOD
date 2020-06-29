@@ -1,5 +1,7 @@
 package selenium;
 
+import javafx.application.Application;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -9,7 +11,7 @@ public class Config {
     static {
         try {
             //указание пути до файла с настройками
-            fileInputStream = new FileInputStream("src/main/resources/conf.properties");
+            fileInputStream = new FileInputStream("src/main/resources/conf.properties");//src/main/resources/
             PROPERTIES = new Properties();
             PROPERTIES.load(fileInputStream);
         }

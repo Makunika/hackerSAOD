@@ -15,10 +15,11 @@
       <TextArea fx:id="debug" editable="false" layoutX="337.0" layoutY="26.0" prefHeight="66.0" prefWidth="235.0" AnchorPane.bottomAnchor="308.0" AnchorPane.leftAnchor="337.0" />
       <TextField fx:id="url_" layoutX="175.0" layoutY="26.0" promptText="URL" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="26.0" />
       <Button fx:id="GoToPage" layoutX="175.0" layoutY="59.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="149.0" text="Перейти" />
-      <TableView fx:id="table" layoutX="14.0" layoutY="156.0" prefHeight="230.0" prefWidth="574.0">
+      <TableView fx:id="table" layoutX="14.0" layoutY="156.0" prefHeight="230.0" prefWidth="574.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="156.0">
         <columns>
           <TableColumn fx:id="question" prefWidth="277.0" text="Вопрос" />
-          <TableColumn fx:id="answer" prefWidth="296.0" text="Ответ" />
+          <TableColumn fx:id="answer" prefWidth="127.0" text="Ответ" />
+            <TableColumn fx:id="number" prefWidth="169.0" text="Номер вопроса" />
         </columns>
       </TableView>
       <PasswordField fx:id="passText" layoutX="14.0" layoutY="63.0" promptText="Пароль" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="63.0" />
